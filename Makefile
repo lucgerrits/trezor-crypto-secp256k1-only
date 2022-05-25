@@ -1,16 +1,43 @@
-GCC_TOOLS_PATH=gcc
+GCC_TOOLS_PATH=cc
 
-OPTFLAGS = -O2
+OPTFLAGS = -O2 -g \
+            -std=gnu99 \
+            -Wall 
+OBJS=sha2.o memzero.o ecdsa.o rfc6979.o hmac.o hmac_drbg.o bignum.o rand.o secp256k1.o
 
-main: main.c
-	@echo "uECC"
-	$(GCC_TOOLS_PATH) $(OPTFLAGS) -I. main.c -o main
+main: main.c $(OBJS)
+	@echo "Main"
+	$(GCC_TOOLS_PATH) $(OPTFLAGS) main.c $(OBJS) -o main
 
-# uECC: uECC.c
-# 	$(GCC_TOOLS_PATH) $(OPTFLAGS) -c -I. uECC.c
+sha2: sha2.c
+	$(GCC_TOOLS_PATH) $(OPTFLAGS) -c sha2.o
 
-# sha256: sha256.c
-# 	$(GCC_TOOLS_PATH) $(OPTFLAGS) -c -I. sha256.c
+memzero: memzero.c
+	$(GCC_TOOLS_PATH) $(OPTFLAGS) -c memzero.o
 
-# byte_order: byte_order.c
-# 	$(GCC_TOOLS_PATH) $(OPTFLAGS) -c -I. byte_order.c
+bignum: bignum.c
+	$(GCC_TOOLS_PATH) $(OPTFLAGS) -c bignum.o
+
+ecdsa: ecdsa.c
+	$(GCC_TOOLS_PATH) $(OPTFLAGS) -c ecdsa.o
+
+rfc6979: rfc6979.c
+	$(GCC_TOOLS_PATH) $(OPTFLAGS) -c rfc6979.o
+
+hmac: hmac.c
+	$(GCC_TOOLS_PATH) $(OPTFLAGS) -c hmac.o
+
+hmac_drbg: hmac_drbg.c
+	$(GCC_TOOLS_PATH) $(OPTFLAGS) -c hmac_drbg.o
+
+rand: rand.c
+	$(GCC_TOOLS_PATH) $(OPTFLAGS) -c rand.o
+
+secp256k1: secp256k1.c
+	$(GCC_TOOLS_PATH) $(OPTFLAGS) -c secp256k1.o
+
+
+
+clean:
+	rm -f main
+	rm -f *.o
